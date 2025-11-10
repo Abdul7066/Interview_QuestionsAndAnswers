@@ -226,7 +226,7 @@ const InterviewGuideHome = ({ onNavigate }) => {
           💡 <strong>Pro Tip:</strong> Practice explaining your answers out loud to build confidence
         </p>
         <p className="text-sm text-gray-500">
-          These guides are regularly updated with the latest interview trends and questions
+          This site is made by "Md Abdul Rahman" for preparation of Full-Stack Interviews.
         </p>
       </div>
     </div>
