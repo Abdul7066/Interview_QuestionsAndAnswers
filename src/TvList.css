@@ -1,0 +1,10 @@
+.main{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+.contain{
+    margin-left: 20px;
+}
