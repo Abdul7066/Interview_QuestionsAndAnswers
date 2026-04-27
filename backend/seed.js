@@ -17,9 +17,9 @@ const seedDatabase = async () => {
     await Question.deleteMany({});
     console.log('🗑️  Cleared existing questions');
 
-    // Read JSON data files
-    const frontendPath = path.join(__dirname, '..', 'src', 'data', 'frontendQuestions.json');
-    const backendPath = path.join(__dirname, '..', 'src', 'data', 'backendQuestions.json');
+    // Read JSON data files from the new frontend folder structure
+    const frontendPath = path.join(__dirname, '..', 'frontend', 'src', 'data', 'frontendQuestions.json');
+    const backendPath = path.join(__dirname, '..', 'frontend', 'src', 'data', 'backendQuestions.json');
 
     const frontendData = JSON.parse(fs.readFileSync(frontendPath, 'utf-8'));
     const backendData = JSON.parse(fs.readFileSync(backendPath, 'utf-8'));
