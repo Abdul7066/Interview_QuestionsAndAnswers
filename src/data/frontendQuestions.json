@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "question": "What is Redux? Please Explain me in detail?",
+    "answer": "Redux is a JavaScript library used for managing the state of the application at a global level. It is a single source of truth and uses Action, Store & Reducer.\n\n**Store:** A centralized storage to manage the entire application state. Use `useDispatch` to update the state and `useSelector` to read it.\n\n**Action:** A plain JavaScript object that represents events or updates in the application.\n\n**Reducers:** Pure functions that take the current state and an action as arguments and return a new state."
+  },
+  {
+    "id": 2,
+    "question": "Difference between Virtual DOM and Real DOM?",
+    "answer": "**Virtual DOM:**\n- A lightweight copy of the real DOM, making the app faster\n- Stores copy in components\n- Creates node tree of components\n- No wastage of memory\n\n**Real DOM:**\n- Updates slowly\n- Allows direct updates from HTML\n- Wastes too much memory"
+  },
+  {
+    "id": 3,
+    "question": "Advantages of React.js?",
+    "answer": "- Increases application performance with the virtual DOM\n- JSX makes code easy to read & write\n- React supports client-side rendering by default\n- React uses one-way data flow"
+  },
+  {
+    "id": 4,
+    "question": "What is JSX?",
+    "answer": "- JSX stands for JavaScript XML\n- JSX allows you to write HTML inside JavaScript\n- JSX is the combination of JS & HTML"
+  },
+  {
+    "id": 5,
+    "question": "What is the difference between functional and class components?",
+    "answer": "**Class Components:** Can manage state using `this.state`, more complex, lifecycle methods can be used, must have `render` method returning JSX, constructors are used to store state.\n\n**Functional Components:** Can manage state using `useState` hook, simple and easy to understand, cannot use lifecycle methods but can use `useEffect` Hook, no render method required, constructors are not used."
+  },
+  {
+    "id": 6,
+    "question": "Explain Error boundaries in React.js?",
+    "answer": "- Error boundaries catch JS errors in their child components, log these errors and show fallback UI\n- Error boundaries are only used in class components\n- We can handle errors using `componentDidCatch()` and show fallback UI using `getDerivedStateFromError()`"
+  },
+  {
+    "id": 7,
+    "question": "How do you handle forms in React.js?",
+    "answer": "I handle forms in React using external libraries like React Hook Form for better control, real-time validation or updates, and cleaner code."
+  },
+  {
+    "id": 8,
+    "question": "Difference between Props and State?",
+    "answer": "**Props:** Used to pass data from parent to child components. Props are immutable — cannot be changed or updated.\n\n**State:** Used to manage data inside the component. State is mutable — can be changed or updated."
+  },
+  {
+    "id": 9,
+    "question": "Higher Order Components (HOC) in React?",
+    "answer": "It's a new and advanced technique used to reuse logic. It's a function that takes a component as an argument and returns a new component."
+  },
+  {
+    "id": 10,
+    "question": "Difference between controlled and uncontrolled components?",
+    "answer": "**Controlled Components:**\n- Controlled by React State\n- Receives its current value through props and changes through callbacks like `onChange`\n\n**Uncontrolled Components:**\n- Not controlled by React state\n- Directly controlled through DOM; use `Ref` to control state\n- Maintains its own state internally"
+  },
+  {
+    "id": 11,
+    "question": "Explain Lazy loading in React.js?",
+    "answer": "Lazy loading is used to optimize the performance of React applications & improve loading time. It allows you to load only the parts needed by a user. Remaining parts are loaded later when the user interacts with the application, making it faster."
+  },
+  {
+    "id": 12,
+    "question": "What is useRef?",
+    "answer": "- `useRef` Hook is used for managing focus, media playback & text selection\n- Also used for DOM manipulation\n- Allows you to persist values between renders"
+  },
+  {
+    "id": 13,
+    "question": "What are Lifecycle methods in React?",
+    "answer": "Lifecycle methods are only used in class components and classified into three phases:\n\n1. **componentDidMount:** Runs after the component is mounted to the DOM. Used for API calls or subscriptions.\n2. **componentDidUpdate:** Runs after the DOM updates. Used for side effects like fetching data or DOM manipulation.\n3. **componentWillUnmount:** Used for cleaning up resources like timers or event listeners."
+  },
+  {
+    "id": 14,
+    "question": "What is useMemo?",
+    "answer": "`useMemo` Hook optimizes application performance by memoizing the result of expensive calculations. It takes 2 parameters: a function and a dependencies array. It helps avoid unnecessary re-rendering and re-calculations."
+  },
+  {
+    "id": 15,
+    "question": "useReducer Hook in React?",
+    "answer": "`useReducer` hook is used for state management in functional components, similar to `useState`.\n\n- Takes two parameters: a reducer function and initial state\n- Reducer function has two parameters: current state and action, and returns a new state\n- Returns an array with 2 values: current state value and a dispatch function"
+  },
+  {
+    "id": 16,
+    "question": "What is useState hook in React.js?",
+    "answer": "`useState` hook manages the state of functional components.\n\n- Takes 1 argument and returns 2 values: Getter and Setter\n- Getter gets current state value & Setter is used to update the state\n- Example: counter app"
+  },
+  {
+    "id": 17,
+    "question": "Explain useEffect hook in React.js?",
+    "answer": "`useEffect` hook allows you to perform side effects in functional components such as data fetching from an API, subscriptions, or manually updating the DOM.\n\n- Without a dependency array: runs after every render\n- With an empty dependency array: runs only once after initial render\n- With a dependency array: runs only when those dependencies change"
+  },
+  {
+    "id": 18,
+    "question": "What is the difference between useContext API and React Redux?",
+    "answer": "**useContext API:**\n- Mostly used for small scale applications\n- Shares data across the component tree without manually passing props\n- Can trigger unnecessary re-rendering if not optimized\n\n**Redux:**\n- Used for large scale applications\n- Uses a centralized store to manage entire application state\n- Single source of truth\n- Has debugging tools like Redux DevTools"
+  },
+  {
+    "id": 19,
+    "question": "How to optimize the React application?",
+    "answer": "I usually optimize my React app by avoiding extra re-renders using `React.memo` and `useCallback`. I also use lazy loading and code splitting so the app loads faster. I make sure images are optimized, use pagination for API data, and build the project in production mode for better performance."
+  },
+  {
+    "id": 20,
+    "question": "Debouncing and Throttling?",
+    "answer": "**Debouncing** means delaying a function until the user stops doing something for a short time. Example: Calling API only after the user stops typing.\n\n**Throttling** means allowing a function to run only once in a fixed time period, even if it's called many times. Example: Running a scroll event only once every second."
+  }
+]
