@@ -9,6 +9,34 @@ const api = axios.create({
   },
 });
 
+// ─── REQUEST INTERCEPTOR: attach JWT if present ───────────────
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('admin_token');
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// ─── RESPONSE INTERCEPTOR: auto-logout on 401 ─────────────────
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token expired or invalid — clear local storage silently
+      localStorage.removeItem('admin_token');
+      localStorage.removeItem('admin_user');
+    }
+    return Promise.reject(error);
+  }
+);
+
+// ─── AUTH ─────────────────────────────────────────────────────
+export const adminLogin = async (credentials) => {
+  const { data } = await api.post('/auth/login', credentials);
+  return data;
+};
+
 // ─── GET ALL QUESTIONS ───────────────────────────────────────
 export const getAllQuestions = async (type, category) => {
   const params = {};

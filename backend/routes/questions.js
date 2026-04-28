@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Question = require('../models/Question');
+const protect = require('../middleware/auth');
 
 // ─── GET ALL QUESTIONS ───────────────────────────────────────
 // GET /api/questions?type=frontend&category=javascript
@@ -34,7 +35,7 @@ router.get('/:id', async (req, res) => {
 
 // ─── CREATE QUESTION ─────────────────────────────────────────
 // POST /api/questions
-router.post('/', async (req, res) => {
+router.post('/', protect, async (req, res) => {
   try {
     const { question, answer, category, type } = req.body;
 
@@ -57,7 +58,7 @@ router.post('/', async (req, res) => {
 
 // ─── UPDATE QUESTION ─────────────────────────────────────────
 // PUT /api/questions/:id
-router.put('/:id', async (req, res) => {
+router.put('/:id', protect, async (req, res) => {
   try {
     const { question, answer, category, type } = req.body;
 
@@ -79,7 +80,7 @@ router.put('/:id', async (req, res) => {
 
 // ─── DELETE QUESTION ─────────────────────────────────────────
 // DELETE /api/questions/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', protect, async (req, res) => {
   try {
     const deletedQuestion = await Question.findByIdAndDelete(req.params.id);
 

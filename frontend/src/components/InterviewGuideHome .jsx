@@ -1,12 +1,35 @@
-import React, { useState } from 'react';
-import { Code, Server, ArrowRight, Search, Zap, Target, TrendingUp, Terminal, Plus } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Code, Server, ArrowRight, Search, Zap, Target, TrendingUp, Terminal, Plus, LogIn, LogOut, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Footer from './Footer';
 import AddQuestionModal from './AddQuestionModal';
+import LoginModal from './LoginModal';
+import { getAllQuestions } from '../api/questionApi';
 
 const InterviewGuideHome = ({ onNavigate }) => {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [counts, setCounts] = useState({ frontend: 0, backend: 0 });
+  const [isAdmin, setIsAdmin] = useState(!!localStorage.getItem('admin_token'));
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const [frontendData, backendData] = await Promise.all([
+          getAllQuestions('frontend'),
+          getAllQuestions('backend')
+        ]);
+        setCounts({
+          frontend: frontendData.length || 0,
+          backend: backendData.length || 0
+        });
+      } catch (error) {
+        console.error("Failed to fetch dynamically:", error);
+      }
+    };
+    fetchCounts();
+  }, []);
 
   const guides = [
     {
@@ -19,7 +42,7 @@ const InterviewGuideHome = ({ onNavigate }) => {
       glowColor: 'rgba(0, 212, 255, 0.15)',
       borderColor: 'border-cyan-500/30',
       textColor: 'text-cyan-400',
-      questions: 20,
+      questions: counts.frontend,
       topics: ['Hooks', 'Redux', 'JSX', 'Virtual DOM', 'Components', 'State'],
       difficulty: 'Beginner → Advanced'
     },
@@ -33,7 +56,7 @@ const InterviewGuideHome = ({ onNavigate }) => {
       glowColor: 'rgba(168, 85, 247, 0.15)',
       borderColor: 'border-purple-500/30',
       textColor: 'text-purple-400',
-      questions: 75,
+      questions: counts.backend,
       topics: ['JavaScript', 'Node.js', 'Express', 'MongoDB', 'APIs', 'Async'],
       difficulty: 'Beginner → Expert'
     }
@@ -54,7 +77,40 @@ const InterviewGuideHome = ({ onNavigate }) => {
         <div className="absolute top-[-200px] left-[-100px] w-[500px] h-[500px] bg-accent-cyan/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-[-200px] right-[-100px] w-[500px] h-[500px] bg-accent-purple/10 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="relative max-w-6xl mx-auto px-6 pt-20 pb-32 text-center">
+        <div className="relative max-w-6xl mx-auto px-6 pt-20 pb-32">
+          {/* ─── Admin auth button (top-right) ─── */}
+          <div className="absolute top-6 right-6 z-20">
+            {isAdmin ? (
+              <motion.button
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                onClick={() => {
+                  localStorage.removeItem('admin_token');
+                  localStorage.removeItem('admin_user');
+                  setIsAdmin(false);
+                }}
+                className="flex items-center gap-2 px-4 py-2 bg-dark-700 border border-red-500/30 rounded-xl text-sm font-semibold text-red-400 hover:bg-red-500/10 hover:border-red-500/60 transition-all duration-300"
+                title="Logout"
+              >
+                <Shield className="w-4 h-4" />
+                <span className="font-mono text-xs">Admin</span>
+                <LogOut className="w-4 h-4" />
+              </motion.button>
+            ) : (
+              <motion.button
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                onClick={() => setShowLoginModal(true)}
+                id="admin-login-btn"
+                className="flex items-center gap-2 px-4 py-2 bg-dark-700 border border-dark-500 rounded-xl text-sm font-semibold text-gray-400 hover:text-accent-cyan hover:border-accent-cyan/40 transition-all duration-300"
+              >
+                <LogIn className="w-4 h-4" />
+                Admin Login
+              </motion.button>
+            )}
+          </div>
+
+          <div className="text-center">
           {/* Terminal-style badge */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -100,7 +156,7 @@ const InterviewGuideHome = ({ onNavigate }) => {
             className="flex flex-wrap justify-center gap-3 mb-4"
           >
             {[
-              { label: '100+ Questions', icon: '📚' },
+              { label: `${counts.frontend + counts.backend} Questions`, icon: '📚' },
               { label: '6+ Technologies', icon: '⚡' },
               { label: 'Free & Open', icon: '🔓' },
               { label: 'PDF Export', icon: '📄' }
@@ -111,12 +167,13 @@ const InterviewGuideHome = ({ onNavigate }) => {
               </div>
             ))}
           </motion.div>
-        </div>
-      </div>
+          </div>{/* /text-center */}
+        </div>{/* /relative max-w */}
+      </div>{/* /hero */}
 
       {/* ===== GUIDE CARDS + ADD QUESTION CARD ===== */}
       <div className="flex-grow max-w-6xl mx-auto px-6 -mt-20 relative z-10 w-full">
-        <div className="grid md:grid-cols-3 gap-6 mb-20">
+        <div className={`grid gap-6 mb-20 ${isAdmin ? 'md:grid-cols-3' : 'md:grid-cols-2 max-w-4xl mx-auto'}`}>
           {guides.map((guide, index) => {
             const Icon = guide.icon;
             const isHovered = hoveredCard === guide.id;
@@ -191,7 +248,8 @@ const InterviewGuideHome = ({ onNavigate }) => {
             );
           })}
 
-          {/* ===== ADD QUESTION CARD ===== */}
+          {/* ===== ADD QUESTION CARD (admin only) ===== */}
+          {isAdmin && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -261,6 +319,7 @@ const InterviewGuideHome = ({ onNavigate }) => {
               </div>
             </div>
           </motion.div>
+          )}
         </div>
 
         {/* ===== FEATURES ===== */}
@@ -334,7 +393,7 @@ const InterviewGuideHome = ({ onNavigate }) => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-3 gap-8 text-center">
             {[
-              { value: '100+', label: 'Questions', color: 'text-accent-cyan' },
+              { value: counts.frontend + counts.backend, label: 'Questions', color: 'text-accent-cyan' },
               { value: '6+', label: 'Technologies', color: 'text-accent-purple' },
               { value: '100%', label: 'Free Access', color: 'text-accent-green' },
             ].map((stat, idx) => (
@@ -360,6 +419,13 @@ const InterviewGuideHome = ({ onNavigate }) => {
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         onSuccess={() => setShowAddModal(false)}
+      />
+
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLoginSuccess={() => setIsAdmin(true)}
       />
     </div>
   );

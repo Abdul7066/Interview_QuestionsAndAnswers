@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const questionRoutes = require('./routes/questions');
+const authRoutes = require('./routes/auth');
 
 // Load env variables
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionRoutes);
 
 // Health check

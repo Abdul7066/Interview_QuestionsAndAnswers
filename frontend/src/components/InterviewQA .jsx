@@ -15,6 +15,7 @@ const InterviewQA = ({ onBack }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const contentToPrint = useRef(null);
+  const isAdmin = !!localStorage.getItem('admin_token');
 
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);
@@ -205,7 +206,7 @@ const InterviewQA = ({ onBack }) => {
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0 ml-3">
                     {/* Edit button */}
-                    {item._id && (
+                    {item._id && isAdmin && (
                       <div
                         onClick={(e) => handleEdit(e, item)}
                         className="p-1.5 rounded-lg hover:bg-accent-cyan/10 text-gray-600 hover:text-accent-cyan transition-all opacity-0 group-hover:opacity-100"
@@ -215,7 +216,7 @@ const InterviewQA = ({ onBack }) => {
                       </div>
                     )}
                     {/* Delete button */}
-                    {item._id && (
+                    {item._id && isAdmin && (
                       <div
                         onClick={(e) => handleDeleteClick(e, item)}
                         className="p-1.5 rounded-lg hover:bg-red-500/10 text-gray-600 hover:text-red-400 transition-all opacity-0 group-hover:opacity-100"
