@@ -14,14 +14,13 @@ const seedAdmin = async () => {
   await mongoose.connect(process.env.MONGODB_URI, { family: 4 });
   console.log('✅ Connected to MongoDB');
 
-  const existing = await User.findOne({ username: 'admin' });
-  if (existing) {
-    console.log('ℹ️  Admin user already exists — skipping creation');
-  } else {
-    const hashed = await bcrypt.hash('admin123', 10);
-    await User.create({ username: 'admin', password: hashed, role: 'admin' });
-    console.log('👤 Admin user created  →  username: admin  /  password: admin123');
-  }
+  // Clear existing users (old admin)
+  await User.deleteMany({});
+  console.log('🗑️  Cleared existing admin users');
+
+  const hashed = await bcrypt.hash('Furquan@706646', 10);
+  await User.create({ username: '7066abdulrahman', password: hashed, role: 'admin' });
+  console.log('👤 Admin user created  →  username: 7066abdulrahman  /  password: Furquan@706646');
 };
 
 // ─── SEED QUESTIONS (optional — wipes existing) ──────────────

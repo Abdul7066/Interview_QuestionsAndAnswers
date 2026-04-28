@@ -124,7 +124,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder="admin"
+                        placeholder="Enter Admin ID"
                         required
                         autoComplete="username"
                         className="w-full pl-10 pr-4 py-3 bg-dark-700 border border-dark-500 rounded-xl text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-accent-cyan/60 focus:shadow-[0_0_12px_rgba(0,212,255,0.1)] transition-all font-mono text-sm"
